@@ -585,9 +585,9 @@ class STIX2toMISPParser(STIXtoMISPParser):
             for cluster in self._clusters.values():
                 if self.misp_event.uuid not in cluster['used']:
                     continue
-                if not cluster['used'][self.misp_event.uuid]:
-                    misp_cluster = cluster['cluster']
-                    clusters[misp_cluster.type].append(misp_cluster)
+
+                misp_cluster = cluster['cluster']
+                clusters[misp_cluster.type].append(misp_cluster)
             if clusters:
                 for galaxy in self._aggregate_galaxy_clusters(clusters):
                     self.misp_event.add_galaxy(galaxy)
