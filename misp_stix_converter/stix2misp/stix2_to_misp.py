@@ -1104,6 +1104,13 @@ class STIX2toMISPParser(STIXtoMISPParser, metaclass=ABCMeta):
         if self.distribution == 4 and self.sharing_group_id is not None:
             event_args['sharing_group_id'] = self.sharing_group_id
         misp_event.from_dict(**event_args)
+
+        if hasattr(stix_object, 'description'):
+            misp_event.add_event_report(
+                name=misp_event.info,
+                content=stix_object['description']
+            )
+
         self._handle_misp_event_tags(misp_event, stix_object)
         return misp_event
 

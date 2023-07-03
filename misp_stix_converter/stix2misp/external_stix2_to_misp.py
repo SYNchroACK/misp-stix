@@ -28,7 +28,7 @@ from stix2.v20.observables import (
     X509Certificate as X509Certificate_v20)
 from stix2.v20.sdo import (
     CourseOfAction as CourseOfAction_v20, Vulnerability as Vulnerability_v20)
-from stix2.v20.observables import (
+from stix2.v21.observables import (
     AutonomousSystem as AutonomousSystem_v21, Directory as Directory_v21,
     DomainName as DomainName_v21, EmailAddress as EmailAddress_v21,
     EmailMessage as EmailMessage_v21, File as File_v21,
@@ -39,7 +39,7 @@ from stix2.v20.observables import (
     WindowsRegistryKey as WindowsRegistryKey_v21,
     X509Certificate as X509Certificate_v21)
 from stix2.v21.sdo import (
-    CourseOfAction as CourseOfAction_v21, Indicator as Indicator_v21, Location,
+    CourseOfAction as CourseOfAction_v21, Indicator as Indicator_v21, Location, Identity,
     ObservedData as ObservedData_v21, Vulnerability as Vulnerability_v21)
 from stix2patterns.inspector import _PatternData as PatternData
 from typing import Optional, Tuple, Union
@@ -703,6 +703,10 @@ class ExternalSTIX2toMISPParser(STIX2toMISPParser):
         if hasattr(location, 'region'):
             return self._mapping.regions_mapping(location.region, location.name)
         return location.name
+
+    def _parse_sector_cluster(self, identity: Identity) -> MISPGalaxyCluster:
+        sector_args = self._create_cluster_args(identity, 'sector')
+        return self._create_misp_galaxy_cluster(sector_args)
 
     ################################################################################
     #                     OBSERVABLE OBJECTS PARSING FUNCTIONS                     #
